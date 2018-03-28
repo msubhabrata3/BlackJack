@@ -24,7 +24,7 @@ namespace BlackJack
             InitializeComponent();
         }
 
-        private void btnDeal_Click(object sender, EventArgs e)
+        private void cmdDeal_Click(object sender, EventArgs e)
         {
             if (playercard == 0)
             {
@@ -229,6 +229,14 @@ namespace BlackJack
             //        Controls.Remove(item);
             //}
 
+        }
+
+        private void cmdNewGame_Click(object sender, EventArgs e)
+        {
+            Deck player = new Deck();
+
+            pictureBox1.Image = (Image)player.DisplayCard(player.DrawCard());
+            pictureBox2.Image = (Image)player.DisplayCard(player.DrawCard());
         }
     }
 }

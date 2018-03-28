@@ -12,13 +12,13 @@ namespace BlackJack
         Random rnd1 = new Random();
         List<int> carddeck = new List<int>();
 
-        private int DrawCard()
+        public int DrawCard()
         {
             int cardno = 0;
 
             cardno = rnd1.Next(1, 14);
 
-            if (carddeck.Count != 13)
+            if (carddeck.Count != 5)
             {
                 while (CheckCard(cardno))
                     cardno = rnd1.Next(1, 14);
@@ -34,7 +34,15 @@ namespace BlackJack
             return alreadyExists;
         }
 
-        private Bitmap DisplayCard(int cardno)
+        public int GetNoOfCards()
+        {
+            int total = 0;
+
+
+            return total;
+        }
+
+        public Bitmap DisplayCard(int cardno)
         {
             string cardimage = "";
 
