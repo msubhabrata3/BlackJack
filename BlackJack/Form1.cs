@@ -13,8 +13,11 @@ namespace BlackJack
     public partial class Form1 : Form
     {
         public int playercard = 0;
+        public int dealercard = 0;
+
         Random rnd1 = new Random();
         List<int> playerdeck = new List<int>();
+        List<int> dealerdeck = new List<int>();
 
         public Form1()
         {
@@ -23,7 +26,104 @@ namespace BlackJack
 
         private void btnDeal_Click(object sender, EventArgs e)
         {
-            DisplayImage(GenerateCard());
+            if (playercard == 0)
+            {
+                pictureBox1.Image = (Image)GenerateCard();
+                pictureBox2.Image = (Image)GenerateCard();
+            }
+            else if (playercard == 2)
+                pictureBox3.Image = (Image)GenerateCard();
+            else if (playercard == 3)
+                pictureBox4.Image = (Image)GenerateCard();
+            else if (playercard == 4)
+                pictureBox5.Image = (Image)GenerateCard();
+
+            playerScore.Text = CountPlayerScore();
+
+            if (dealercard == 0)
+            {
+                pictureBox10.Image = (Image)GenerateCard();
+                pictureBox9.Image = (Image)GenerateCard();
+                dealercard = 2;
+            }
+
+            dealerScore.Text = CountDealerScore();
+
+            //DisplayImage(GenerateCard());
+        }
+
+        private string CountPlayerScore()
+        {
+            int score = 0;
+
+            score = playerdeck.Sum();
+
+            if(playerdeck.Any(x => x == 1))
+            {
+                if (score + 10 <= 21)
+                    score = score + 10;
+            }
+
+            if (playerdeck.Any(x => x == 11))
+            {
+                score = score - 1;
+            }
+
+            if (playerdeck.Any(x => x == 12))
+            {
+                score = score - 2;
+            }
+
+            if (playerdeck.Any(x => x == 13))
+            {
+                score = score - 3;
+            }
+
+            if (score > 21)
+            {
+                this.label1.Show();
+                playercard = 5;
+            }
+                
+
+            return score.ToString();
+        }
+
+        private string CountDealerScore()
+        {
+            int score = 0;
+
+            score = dealerdeck.Sum();
+
+            if (dealerdeck.Any(x => x == 1))
+            {
+                if (score + 10 <= 21)
+                    score = score + 10;
+            }
+
+            if (dealerdeck.Any(x => x == 11))
+            {
+                score = score - 1;
+            }
+
+            if (dealerdeck.Any(x => x == 12))
+            {
+                score = score - 2;
+            }
+
+            if (dealerdeck.Any(x => x == 13))
+            {
+                score = score - 3;
+            }
+
+            if (score > 21)
+            {
+                this.label2.Show();
+                dealercard = 5;
+            }
+
+
+            return score.ToString();
         }
 
         private void DisplayImage(string file)
@@ -47,8 +147,8 @@ namespace BlackJack
             return alreadyExists;
         }
 
-        private string GenerateCard()
-        {            
+        private Bitmap GenerateCard()
+        {
             string cardimage = ""; 
             int cardno = 0;
             cardno = rnd1.Next(1, 14);
@@ -103,17 +203,31 @@ namespace BlackJack
             }
             playerdeck.Add(cardno);
 
-            return cardimage;
+            Bitmap image = new Bitmap(cardimage);
+            playercard++;
+
+            return image; // cardimage;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             playercard = 0;
-            foreach (Control item in Controls.OfType<PictureBox>())
-            {
-                if (item.Name.Contains("pictureBox"))
-                    Controls.Remove(item);
-            }
+
+            pictureBox1.Image = null;
+            pictureBox2.Image = null;
+            pictureBox3.Image = null;
+            pictureBox4.Image = null;
+            pictureBox5.Image = null;
+
+            playerScore.Text = "";
+            this.label1.Hide();
+            playerdeck.Clear();
+
+            //foreach (Control item in Controls) //.OfType<PictureBox>()
+            //{
+            //    if (item.Name.Contains("pictureBox"))
+            //        Controls.Remove(item);
+            //}
 
         }
     }
